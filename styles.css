@@ -1,0 +1,195 @@
+.jupyter-notebook {
+    margin: 1em 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.jupyter-cell {
+    margin-bottom: 1em;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.jupyter-code-input {
+    margin: 1em 0;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: var(--code-background);
+}
+
+.jupyter-code-input pre {
+    margin: 0;
+    padding: 1em;
+}
+
+.jupyter-code-input code {
+    font-family: var(--font-monospace);
+    font-size: 0.9em;
+    line-height: 1.5;
+    display: block;
+}
+
+/* 代码块行号样式 */
+.jupyter-code-input pre[class*="language-"] {
+    position: relative;
+    padding-left: 3.8em;
+}
+
+.jupyter-code-input .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 1em;
+    left: 0;
+    width: 3em;
+    letter-spacing: -1px;
+    border-right: 1px solid var(--background-modifier-border);
+    user-select: none;
+}
+
+.jupyter-output {
+    padding: 0.5em;
+    background-color: white;
+    border-top: 1px solid #e0e0e0;
+}
+
+.jupyter-output-stream,
+.jupyter-output-result {
+    margin: 0;
+    white-space: pre-wrap;
+    font-family: monospace;
+}
+
+.jupyter-markdown-cell {
+    padding: 1em;
+}
+
+.jupyter-error {
+    color: red;
+    padding: 1em;
+    background-color: #fff0f0;
+}
+
+.jupyter-output-image {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.jupyter-output-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.jupyter-output-svg {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.jupyter-output-svg svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.jupyter-output-html {
+    margin: 10px 0;
+    overflow-x: auto;
+}
+
+.theme-dark .jupyter-output-image img {
+    background-color: white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.jupyter-output-image img:active {
+    cursor: zoom-in;
+    transform: scale(1.5);
+    transition: transform 0.2s ease;
+}
+
+@media (max-width: 768px) {
+    .jupyter-output-image img:active {
+        transform: none;
+    }
+
+    .jupyter-output-html {
+        font-size: 14px;
+    }
+
+    .jupyter-code-input {
+        padding: 0.5em;
+        font-size: 0.9em;
+    }
+
+    .jupyter-code-input pre {
+        white-space: pre;
+        word-wrap: normal;
+    }
+
+    .jupyter-code-input::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .jupyter-code-input::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar-thumb-bg);
+        border-radius: 2px;
+    }
+}
+
+.theme-dark .jupyter-code-input {
+    background-color: var(--code-background);
+}
+
+.jupyter-retry-button {
+    display: block;
+    margin: 1em auto;
+    padding: 8px 16px;
+    background-color: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.jupyter-retry-button:hover {
+    background-color: var(--interactive-accent-hover);
+}
+
+.theme-dark .jupyter-retry-button {
+    background-color: var(--interactive-accent);
+    color: var(--text-on-accent);
+}
+
+/* CodeMirror 主题适配 */
+.theme-dark .jupyter-code-input .cm-editor {
+    --code-keyword: #c678dd;
+    --code-operator: #56b6c2;
+    --code-string: #98c379;
+    --code-comment: #5c6370;
+    --code-number: #d19a66;
+    --code-variable: #e06c75;
+    --code-function: #61afef;
+    background-color: var(--code-background);
+}
+
+.theme-light .jupyter-code-input .cm-editor {
+    --code-keyword: #a626a4;
+    --code-operator: #0184bc;
+    --code-string: #50a14f;
+    --code-comment: #a0a1a7;
+    --code-number: #986801;
+    --code-variable: #e45649;
+    --code-function: #4078f2;
+    background-color: var(--code-background);
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .jupyter-code-input .cm-editor {
+        font-size: 13px;
+    }
+
+    .jupyter-code-input .cm-content {
+        padding: 4px;
+    }
+}

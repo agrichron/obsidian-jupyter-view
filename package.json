@@ -1,0 +1,29 @@
+{
+    "name": "obsidian-jupyter-notebook",
+    "version": "1.0.0",
+    "description": "在 Obsidian 中查看 Jupyter Notebook 文件",
+    "main": "main.js",
+    "type": "module",
+    "scripts": {
+        "dev": "node esbuild.config.mjs",
+        "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+    },
+    "keywords": [
+        "obsidian",
+        "jupyter",
+        "notebook"
+    ],
+    "author": "你的名字",
+    "license": "MIT",
+    "dependencies": {
+        "markdown-it": "^13.0.1",
+        "obsidian": "^1.1.1"
+    },
+    "devDependencies": {
+        "@types/node": "^16.11.6",
+        "@types/markdown-it": "^12.2.3",
+        "esbuild": "^0.17.3",
+        "tslib": "^2.4.0",
+        "typescript": "^4.7.4"
+    }
+}
