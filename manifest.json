@@ -1,9 +1,9 @@
 {
     "id": "obsidian-jupyter-notebook",
     "name": "Jupyter Notebook Viewer",
-    "version": "1.0.0",
+    "version": "0.0.2",
     "minAppVersion": "0.15.0",
     "description": "在 Obsidian 中查看 Jupyter Notebook 文件",
-    "author": "你的名字",
+    "author": "xiaosong",
     "isDesktopOnly": false
 }

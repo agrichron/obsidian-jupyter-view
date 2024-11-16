@@ -1,17 +1,22 @@
-import { default as MarkdownIt } from 'markdown-it';
-import { MarkdownRenderer } from 'obsidian';
+import { App, MarkdownRenderer } from 'obsidian';
+import { Component } from 'obsidian';
 
 interface JupyterCell {
     cell_type: string;
     source: string[];
     outputs?: any[];
+    metadata?: {
+        vscode?: {
+            languageId?: string;
+            [key: string]: any;
+        };
+    }
 }
-
 interface JupyterNotebook {
     cells: JupyterCell[];
 }
 
-export async function renderNotebook(notebook: JupyterNotebook, container: HTMLElement) {
+export async function renderNotebook(notebook: JupyterNotebook, container: HTMLElement, app: App, component: Component) {
     try {
         // 验证笔记本对象是否有效
         if (!notebook || !Array.isArray(notebook.cells)) {
@@ -29,10 +34,10 @@ export async function renderNotebook(notebook: JupyterNotebook, container: HTMLE
 
             switch (cell.cell_type) {
                 case 'markdown':
-                    renderMarkdownCell(cell, cellElement);
+                    renderMarkdownCell(cell, cellElement, app, component);
                     break;
                 case 'code':
-                    renderCodeCell(cell, cellElement);
+                    await renderCodeCell(cell, cellElement, app, component);
                     break;
             }
         }
@@ -46,21 +51,25 @@ export async function renderNotebook(notebook: JupyterNotebook, container: HTMLE
     }
 }
 
-function renderMarkdownCell(cell: JupyterCell, container: HTMLElement) {
+async function renderMarkdownCell(
+    cell: JupyterCell,
+    container: HTMLElement,
+    app: App,
+    component: Component
+) {
     try {
         const content = cell.source.join('');
         const markdownContainer = container.createEl('div', {
             cls: 'jupyter-markdown-cell'
         });
 
-        // 创建 MarkdownIt 实例
-        const md = MarkdownIt({
-            html: true,
-            linkify: true,
-            typographer: true
-        });
-
-        markdownContainer.innerHTML = md.render(content);
+        await MarkdownRenderer.render(
+            app,
+            content,
+            markdownContainer,
+            './',
+            component
+        );
     } catch (error) {
         console.error('Markdown 渲染错误:', error);
         container.createEl('div', {
@@ -70,23 +79,35 @@ function renderMarkdownCell(cell: JupyterCell, container: HTMLElement) {
     }
 }
 
-function renderCodeCell(cell: JupyterCell, container: HTMLElement) {
+async function renderCodeCell(cell: JupyterCell, container: HTMLElement, app: App, component: Component) {
+    console.log('renderCodeCell', cell);
     // 创建代码容器
     const codeContainer = container.createEl('div', {
         cls: 'jupyter-code-input'
     });
 
-    // 创建 pre 和 code 元素
-    const pre = codeContainer.createEl('pre');
-    const code = pre.createEl('code', {
-        cls: 'language-python'
+    // 创建语言标签容器
+    const languageLabel = codeContainer.createEl('div', {
+        cls: 'jupyter-code-language'
     });
 
-    // 设置代码内容
+    // 读取cell中的language
+    const language = cell.metadata?.vscode?.languageId || 'python';
+    // 设置语言标签文本
+
+    languageLabel.setText(language);
+
+    // 使用 MarkdownRenderer 渲染代码块
     const sourceCode = cell.source.join('');
-    code.setText(sourceCode);
+    const markdownCode = '```' + language + '\n' + sourceCode + '\n```';
 
-
+    await MarkdownRenderer.render(
+        app,
+        markdownCode,
+        codeContainer,
+        './',
+        component
+    );
 
     // 渲染输出
     if (cell.outputs && cell.outputs.length > 0) {
